@@ -1,11 +1,10 @@
 //  ------------ Setup ------------
 window.focus;
-const SCREENWIDTH = innerWidth;
-const SCREENHEIGHT = innerHeight;
+
 let gameCanvas = document.getElementById("gameCanvas");
 let c = gameCanvas.getContext("2d"); // Drawing object
-gameCanvas.height = SCREENHEIGHT;
-gameCanvas.width = SCREENWIDTH;
+gameCanvas.height = window.innerHeight;
+gameCanvas.width = window.innerWidth;
 // -------------------------------------
 // Player variables
 let playerX = 100;
