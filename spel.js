@@ -4,8 +4,8 @@ const SCREENWIDTH = innerWidth;
 const SCREENHEIGHT = innerHeight;
 let gameCanvas = document.getElementById("gameCanvas");
 let c = gameCanvas.getContext("2d"); // Drawing object
-gameCanvas.height = SCREENHEIGHT / 2;
-gameCanvas.width = SCREENWIDTH / 2;
+gameCanvas.height = SCREENHEIGHT;
+gameCanvas.width = SCREENWIDTH;
 // -------------------------------------
 // Player variables
 let playerX = 100;
