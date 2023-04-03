@@ -18,10 +18,10 @@ function spelPlan() {
 // Player variables
 
 let player = {
-  x: 10,
-  y: 10,
   playerWidth: 10,
   playerHeight: 10,
+  x: 10,
+  y: 510,
   //   y: window.innerHeight / 2,
   dx: 3,
   dy: 3,
@@ -46,12 +46,12 @@ document.addEventListener("keydown", (e) => {
     case "ArrowRight":
       player.directions.right = true;
       break;
-    case "ArrowUp":
-      player.directions.up = true;
-      break;
-    case "ArrowDown":
-      player.directions.down = true;
-      break;
+    // case "ArrowUp":
+    //   player.directions.up = true;
+    //   break;
+    // case "ArrowDown":
+    //   player.directions.down = true;
+    //   break;
     default:
       break;
   }
@@ -65,12 +65,12 @@ document.addEventListener("keyup", (e) => {
     case "ArrowRight":
       player.directions.right = false;
       break;
-    case "ArrowUp":
-      player.directions.up = false;
-      break;
-    case "ArrowDown":
-      player.directions.down = false;
-      break;
+    // case "ArrowUp":
+    //   player.directions.up = false;
+    //   break;
+    // case "ArrowDown":
+    //   player.directions.down = false;
+    //   break;
     default:
       break;
   }
