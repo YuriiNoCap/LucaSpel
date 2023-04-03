@@ -102,11 +102,9 @@ function animate() {
 // -------------------------------------
 // ------------ Start game ------------
 
-
 c.beginPath();
 c.moveTo(0, 0);
 c.lineTo(300, 150);
 c.stroke();
-
 
 animate();
