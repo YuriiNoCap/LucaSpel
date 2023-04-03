@@ -18,10 +18,12 @@ function spelPlan() {
 // Player variables
 
 let player = {
+  gravity: 0.5,
+  velocityY: 0,
   playerWidth: 10,
   playerHeight: 10,
   x: 10,
-  y: 510,
+  y: 10,
   //   y: window.innerHeight / 2,
   dx: 3,
   dy: 3,
@@ -65,6 +67,12 @@ document.addEventListener("keyup", (e) => {
     case "ArrowRight":
       player.directions.right = false;
       break;
+    case "ArrowUp":
+      if (player.y + player.playerHeight >= gameCanvas.height - 20) {
+        // Only jump if player is on the ground
+        player.velocityY = -10;
+      }
+      break;
     // case "ArrowUp":
     //   player.directions.up = false;
     //   break;
@@ -83,6 +91,10 @@ function animate() {
   spelPlan();
   c.fillRect(player.x, player.y, player.playerWidth, player.playerHeight); // Draw player
 
+  // Apply gravity
+  player.velocityY += player.gravity;
+  player.y += player.velocityY;
+
   if (player.directions.right) {
     player.x += player.dx;
   }
@@ -91,14 +103,13 @@ function animate() {
     player.x -= player.dx;
   }
 
-  if (player.directions.up) {
-    player.y -= player.dy;
-  }
-
-  if (player.directions.down) {
-    player.y += player.dy;
+  // Check if player has hit the bottom of the canvas
+  if (player.y + player.playerHeight > gameCanvas.height - 20) {
+    player.y = gameCanvas.height - player.playerHeight - 20;
+    player.velocityY = 0;
   }
 }
+
 // -------------------------------------
 // ------------ Start game ------------
 
