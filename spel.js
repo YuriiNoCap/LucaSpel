@@ -7,11 +7,32 @@ gameCanvas.height = window.innerHeight;
 gameCanvas.width = window.innerWidth;
 
 // Spel plan
+
+class Hinder {
+  constructor(varX, varY, längdX){
+    this.varX = varX
+    this.varY = varY
+    this.längdX = längdX
+  }
+
+}
+
+const Hinder1 = new Hinder(0,100,400)
+const Hinder2 = new Hinder(0,gameCanvas.height,gameCanvas.width)
+const Hinder3 = new Hinder(410,400,100)
+hinderLista = [Hinder1,Hinder2,Hinder3]
+
+
 function spelPlan() {
-  c.beginPath();
-  c.moveTo(0, 520);
-  c.lineTo(gameCanvas.width, 520);
-  c.stroke();
+  for (let j = 0; j < hinderLista.length; j++) {
+    const e = hinderLista[j];
+    c.beginPath();
+    c.moveTo(e.varX, e.varY);
+    c.lineTo(e.varX+e.längdX, e.varY);
+    c.stroke();
+    
+  }
+
 }
 
 // -------------------------------------
@@ -20,13 +41,13 @@ function spelPlan() {
 let player = {
   gravity: 0.5,
   velocityY: 0,
-  playerWidth: 10,
-  playerHeight: 10,
+
   x: 10,
   y: 10,
   //   y: window.innerHeight / 2,
   dx: 3,
   dy: 3,
+  faller: true,
 
   //   img: document.getElementById("hero"),
   height: 60,
@@ -68,8 +89,9 @@ document.addEventListener("keyup", (e) => {
       player.directions.right = false;
       break;
     case "ArrowUp":
-      if (player.y + player.playerHeight >= gameCanvas.height - 20) {
+      if (faller=false) {
         // Only jump if player is on the ground
+        console.log("hoppar")
         player.velocityY = -10;
       }
       break;
@@ -83,17 +105,43 @@ document.addEventListener("keyup", (e) => {
       break;
   }
 });
+console.log(hinderLista)
 // -------------------------------------
 // ------------ Animation ------------
 function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
+
+
+
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
+  // Här händer det grejer
+
   spelPlan();
-  c.fillRect(player.x, player.y, player.playerWidth, player.playerHeight); // Draw player
+  c.fillRect(player.x, player.y, player.width, player.height); // Draw player
 
   // Apply gravity
-  player.velocityY += player.gravity;
-  player.y += player.velocityY;
+  for (let i = 0; i < hinderLista.length; i++) {
+    var hindret = hinderLista[i]
+    if (player.y + player.height >= hindret.varY && hindret.varX <player.x && player.x< hindret.varX + hindret.längdX) {
+      player.velocityY=0
+      faller=false
+      console.log("faller inte")
+      break
+    }
+    else{
+      faller=true
+        console.log("faller")
+        player.velocityY = +10;
+        player.velocityY += player.gravity;
+        player.y += player.velocityY;
+        break
+        
+        
+      }
+    }
+
+
+
 
   if (player.directions.right) {
     player.x += player.dx;
@@ -103,19 +151,7 @@ function animate() {
     player.x -= player.dx;
   }
 
-  // Check if player has hit the bottom of the canvas
-  if (player.y + player.playerHeight > gameCanvas.height - 20) {
-    player.y = gameCanvas.height - player.playerHeight - 20;
-    player.velocityY = 0;
-  }
+ 
+
 }
-
-// -------------------------------------
-// ------------ Start game ------------
-
-c.beginPath();
-c.moveTo(0, 0);
-c.lineTo(300, 150);
-c.stroke();
-
 animate();
