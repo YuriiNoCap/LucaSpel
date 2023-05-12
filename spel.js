@@ -86,8 +86,7 @@ function Tak(player) {
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX
     ) {
-      // player.velocityY = 0;
-      player.Faller = true;
+      player.Faller = false;
     }
   }
 }
