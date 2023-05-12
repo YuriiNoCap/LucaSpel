@@ -42,10 +42,10 @@ class Hinder {
     this.längdX = längdX;
   }
 }
-const Hinder1 = new Hinder(0, 100, 400);
-const Hinder2 = new Hinder(0, 550, gameCanvas.width);
-const Hinder3 = new Hinder(410, 400, 100);
-hinderLista = [Hinder1, Hinder2, Hinder3];
+// const Hinder1 = new Hinder(0, 100, 400);
+const Hinder1 = new Hinder(0, 512, gameCanvas.width);
+const Hinder2 = new Hinder(410, 350, 100);
+hinderLista = [Hinder1, Hinder2];
 
 function gravity(player) {
   player.velocityY += player.gravity;
@@ -67,7 +67,7 @@ function Faller(player) {
     const streck = hinderLista[i];
     if (
       player.y + player.height >= streck.varY &&
-      player.y + player.height < streck.varY + 18 &&
+      player.y + player.height < streck.varY + 20 &&
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX
     ) {
@@ -77,14 +77,29 @@ function Faller(player) {
   return false;
 }
 
+function Tak(player) {
+  for (let i = 0; i < hinderLista.length; i++) {
+    const streck = hinderLista[i];
+    if (
+      player.y <= streck.varY &&
+      player.y > streck.varY + 40 &&
+      streck.varX < player.x + player.width &&
+      player.x < streck.varX + streck.längdX
+    ) {
+      // player.velocityY = 0;
+      player.Faller = true;
+    }
+  }
+}
+
 // -------------------------------------
 // Player variables
 
 let player = {
   gravity: 0.5,
   velocityY: 0,
-  x: 10,
-  y: 10,
+  x: 20,
+  y: 450,
   dx: 5,
   faller: true,
   height: 50,
@@ -150,6 +165,15 @@ function animate() {
     gravity(player);
     player.faller = true;
   }
+  if (Tak(player)) {
+    player.velocityY = 0;
+    gravity(player);
+  }
+  // if (player.y + player.height < Hinder.varY) {
+  //   // Ska hoppa här
+  // } else {
+  // // Ska inte hoppa här
+  // }
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
@@ -179,6 +203,15 @@ function animate() {
     );
     c.restore();
     player.x -= player.dx;
+  } else if (player.velocityY != 0) {
+    player.currentImg = jumpingImg;
+    c.drawImage(
+      player.currentImg,
+      player.x,
+      player.y,
+      player.width,
+      player.height
+    );
   } else {
     player.currentImg = standingImg;
     c.drawImage(
