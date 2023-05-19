@@ -64,7 +64,11 @@ class Monster {
   }
 }
 
+<<<<<<< HEAD
 const Monster1 = new Monster(2, 200, 420, 60, 60, 130, 500);
+=======
+const Monster1 = new Monster(2, 100, 420, 60, 60, 150, 500);
+>>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 const Monster2 = new Monster(5, 30, 30, 50, 50, 30, 150);
 const monsterLista = [Monster1, Monster2];
 
@@ -135,7 +139,11 @@ function monsterdöd() {
 function spelarDöd() {
   for (let i = 0; i < monsterLista.length; i++) {
     const monster = monsterLista[i];
+<<<<<<< HEAD
     
+=======
+
+>>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
     if (
       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
         (player.y + player.height < monster.y + monster.höjd &&
@@ -144,12 +152,20 @@ function spelarDöd() {
       player.x < monster.x + monster.längd &&
       player.x + player.width > monster.x
     ) {
+<<<<<<< HEAD
       console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
       return true;
     }
   }
   
   return false; // Returnera false om ingen kollision har inträffat
+=======
+      console.log("Du dör");
+      return true;
+    }
+  }
+  return false;
+>>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 }
 
 
@@ -215,7 +231,7 @@ let player = {
 // let gameCanvas = document.getElementById("gameCanvas");
 let spelplan1 = document.getElementById("spelplan1");
 
-let portal = {
+const portal = {
   x: 500,
   y: 460,
   height: 50,
@@ -311,6 +327,7 @@ function animate() {
   background.draw();
   monsterRitas();
   monsterdöd();
+<<<<<<< HEAD
   // if (spelarDöd()) {
   //   const gameOverElement = document.createElement("div");
   //   gameOverElement.id = "game-over";
@@ -353,6 +370,12 @@ function animate() {
   // Set the font properties
 
 
+=======
+  if (spelarDöd()) {
+    window.location.href = "spel-meny.html";
+  }
+  // Set the font properties
+>>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 
   spelPlan();
   spelPlan1();
