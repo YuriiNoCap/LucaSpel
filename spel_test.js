@@ -6,6 +6,53 @@ const c = gameCanvas.getContext("2d"); // Drawing object
 gameCanvas.height = window.innerHeight;
 gameCanvas.width = window.innerWidth;
 
+function showDifficulty() {
+  // Hämta body-elementet från DOM:en
+  var body = document.getElementsByTagName("body")[0];
+
+  // Skapa en div för svårighetsgraden
+  var difficultyDiv = document.createElement("div");
+
+  // Lägg till text
+  var text = document.createElement("p");
+  text.innerHTML = "Välj svårighetsgrad:";
+  difficultyDiv.appendChild(text);
+
+  // Skapa två knappar för att välja svårighetsgrad
+  var easyButton = document.createElement("button");
+  easyButton.innerHTML = "Lätt";
+  easyButton.addEventListener("click", function () {
+    startGame("easy");
+  });
+  difficultyDiv.appendChild(easyButton);
+
+  var hardButton = document.createElement("button");
+  hardButton.innerHTML = "Svårt";
+  hardButton.addEventListener("click", function () {
+    startGame("hard");
+  });
+  difficultyDiv.appendChild(hardButton);
+
+  // Ta bort "Ok"-knappen
+  body.removeChild(document.getElementsByTagName("button")[0]);
+
+  // Lägg till svårighetsgraden i DOM:en
+  body.appendChild(difficultyDiv);
+}
+
+function startGame(difficulty) {
+  // Skapa spelet baserat på svårighetsgraden
+  if (difficulty === "easy") {
+    // Skapa spelet i lätt svårighetsgrad
+  } else if (difficulty === "hard") {
+    // Skapa spelet i svår svårighetsgrad
+  }
+
+  // Ta bort svårighetsgradsdiv:en från DOM:en
+  var body = document.getElementsByTagName("body")[0];
+  body.removeChild(document.getElementsByTagName("div")[0]);
+}
+
 //Images
 const standingImg = new Image();
 standingImg.src =
@@ -75,9 +122,8 @@ function monsterRitas(){
     monster.x += monster.hastighet*monster.riktning
   });
 
+
 }
-
-
 
 const Hinder1 = new Hinder(0, 100, 400);
 const Hinder2 = new Hinder(0, 550, gameCanvas.width);
@@ -88,8 +134,6 @@ function gravity(player) {
   player.velocityY += player.gravity;
   player.y += player.velocityY;
 }
-
-
 
 function spelPlan() {
   for (let j = 0; j < hinderLista.length; j++) {
@@ -114,6 +158,22 @@ function Faller(player) {
     }
   }
   return false;
+}
+
+function Tak(player) {
+  for (let i = 0; i < hinderLista.length; i++) {
+    const streck = hinderLista[i];
+    if (
+      player.y <= streck.varY + streck.längdY &&
+      player.y > streck.varY &&
+      streck.varX < player.x + player.width &&
+      player.x < streck.varX + streck.längdX
+    ) {
+      player.velocityY = 0;
+      player.y = streck.varY + streck.längdY;
+      player.direction *= -1;
+    }
+  }
 }
 
 // -------------------------------------
@@ -215,9 +275,12 @@ document.addEventListener("keyup", (e) => {
 // -------------------------------------
 // ------------ Animation ------------
 function animate() {
+  showDifficulty();
   requestAnimationFrame(animate); // Run gameloop recursively
   // Apply gravity
   
+
+  c.fillRect(100, 100, 100, 100);
   if (Faller(player)) {
     player.velocityY = 0;
     player.faller = false;
@@ -225,6 +288,7 @@ function animate() {
     gravity(player);
     player.faller = true;
   }
+  Tak(player);
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
