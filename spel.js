@@ -16,6 +16,9 @@ jumpingImg.src =
 const movingImg = new Image();
 movingImg.src =
   "Images/Karaktär/Skärmbild_2023-05-05_123531-removebg-preview.png";
+const monsterImg = new Image();
+monsterImg.src =
+  "Images/Mönster/Skärmbild_2023-05-19_121921-removebg-preview.png";
 
 // Spel plan
 class Background {
@@ -49,35 +52,33 @@ hinderLista = [Hinder1, Hinder2, Hinder3];
 // console.log(hinderLista);
 
 class Monster {
-  constructor(hastighet, x, y, höjd, längd, vänsterGräns, högerGräns){
+  constructor(hastighet, x, y, höjd, längd, vänsterGräns, högerGräns) {
     this.hastighet = hastighet;
-    this.höjd=höjd;
-    this.längd=längd;
+    this.höjd = höjd;
+    this.längd = längd;
     this.x = x;
-    this.y =y;
-    this.vänsterGräns = vänsterGräns
-    this.högerGräns = högerGräns
-    this.riktning = 1
+    this.y = y;
+    this.vänsterGräns = vänsterGräns;
+    this.högerGräns = högerGräns;
+    this.riktning = 1;
   }
 }
 
-const Monster1 = new Monster(2, 10, 420, 60,60,10,500)
-const Monster2 = new Monster(5,30,30,25,25,30,150)
-const monsterLista = [Monster1, Monster2]
+const Monster1 = new Monster(2, 200, 420, 60, 60, 130, 500);
+const Monster2 = new Monster(5, 30, 30, 50, 50, 30, 150);
+const monsterLista = [Monster1, Monster2];
 
-function monsterRitas(){
-  monsterLista.forEach(monster => {
-    c.fillRect(monster.x, monster.y, monster.längd, monster.höjd);
-    if (monster.x >monster.högerGräns) {
-      monster.riktning=-1
+function monsterRitas() {
+  monsterLista.forEach((monster) => {
+    // Ritar monstret som en bild istället för en rektangel
+    c.drawImage(monsterImg, monster.x, monster.y, monster.längd, monster.höjd);
+    if (monster.x > monster.högerGräns) {
+      monster.riktning = -1;
+    } else if (monster.x < monster.vänsterGräns) {
+      monster.riktning = 1;
     }
-    else if (monster.x < monster.vänsterGräns) {
-      monster.riktning=1
-    }
-    monster.x += monster.hastighet*monster.riktning
+    monster.x += monster.hastighet * monster.riktning;
   });
-
-
 }
 
 function gravity(player) {
@@ -98,7 +99,7 @@ function spelPlan() {
 function monsterdöd() {
   for (let j = 0; j < monsterLista.length; j++) {
     const monster = monsterLista[j];
-    
+
     if (
       player.y + player.height > monster.y &&
       player.y + player.height < monster.y + monster.höjd &&
@@ -109,26 +110,49 @@ function monsterdöd() {
       player.velocityY = 0;
       console.log("Monster killed!");
       monsterLista.splice(j, 1);
-      j--; // Decrease j since we just removed a monster from the array
     }
   }
 }
 
-function spelarDöd() {
-  monsterLista.forEach(monster => {
-    if ((player.y<monster.y + monster.höjd
-    &&(player.y> monster.y )
-    || (player.y+player.height<monster.y+monster.höjd&&player.y+player.height&&player.y+player.height<monster.höjd))
-
-    && (player.x<monster.x+monster.längd
-    &&player.x+player.width>monster.x)) {
-      console.log("Du dör")
+// function spelarDöd() {
+//   monsterLista.forEach((monster) => {
+//     if (
+//       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
+//         (player.y + player.height < monster.y + monster.höjd &&
+//           player.y + player.height &&
+//           player.y + player.height < monster.höjd)) &&
+//       player.x < monster.x + monster.längd &&
+//       player.x + player.width > monster.x
+//     ) {
+//       console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
+//       return true
       
+//     }
+//   });
+// }
+
+
+function spelarDöd() {
+  for (let i = 0; i < monsterLista.length; i++) {
+    const monster = monsterLista[i];
+    
+    if (
+      ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
+        (player.y + player.height < monster.y + monster.höjd &&
+          player.y + player.height &&
+          player.y + player.height < monster.höjd)) &&
+      player.x < monster.x + monster.längd &&
+      player.x + player.width > monster.x
+    ) {
+      console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+      return true;
     }
-  });
+  }
   
+  return false; // Returnera false om ingen kollision har inträffat
 }
-  
+
+
 function Faller(player) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
@@ -155,13 +179,11 @@ function Tak(player) {
       player.x < streck.varX + streck.längdX &&
       player.y < streck.varY &&
       player.y > streck.varY - 15
-
-
     ) {
+      player.velocityY = 0;
 
-      console.log("lsnjd")
       return true;
-    } 
+    }
   }
 }
 
@@ -258,6 +280,7 @@ document.addEventListener("keyup", (e) => {
 // -------------------------------------
 // ------------ Animation ------------
 function animate() {
+  
   requestAnimationFrame(animate); // Run gameloop recursively
   if (Faller(player)) {
     player.velocityY = 0;
@@ -279,18 +302,57 @@ function animate() {
   //   // Ska hoppa här
   // } else {
   // // Ska inte hoppa här
+
   // }
+  
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
   background.draw();
-  monsterRitas()
-  monsterdöd()
-  spelarDöd()
-  // Set the font properties
-c.font = "30px Arial";
+  monsterRitas();
+  monsterdöd();
+  // if (spelarDöd()) {
+  //   const gameOverElement = document.createElement("div");
+  //   gameOverElement.id = "game-over";
+  //   gameOverElement.innerText = "Game Over";
+  //   document.body.appendChild(gameOverElement);
+  //   pausaSpelet();
 
-// Write text on the canvas
+  //   setTimeout(function () {
+  //     window.location.href = "spel-meny.html";
+  //   }, 2000);
+  // }
+
+  
+  // if (spelarDöd()) {
+    
+  //   const gameOverElement = document.createElement("div");
+  //   gameOverElement.id = "game-over";
+  //   gameOverElement.innerText = "Game Over";
+  //   document.body.appendChild(gameOverElement);
+  //   document.body.style.pointerEvents = "none";
+
+  //   setTimeout(function () {
+  //     window.location.href = "spel-meny.html";
+  //   }, 1000);
+    
+  // }
+
+
+  // if (spelarDöd()) {
+  //   document.body.innerHTML = "<h1>Game Over</h1>";
+  //   setTimeout(function () {
+  //     window.location.href = "spel-meny.html";
+  //   }, 2000);
+  // }
+
+  if (spelarDöd()){
+    window.location.href = "timer.html";
+  }
+
+  // Set the font properties
+
+
 
   spelPlan();
   spelPlan1();
@@ -336,5 +398,6 @@ c.font = "30px Arial";
       player.height
     );
   }
+
 }
 animate();
