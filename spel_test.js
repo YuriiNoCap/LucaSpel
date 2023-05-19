@@ -43,29 +43,45 @@ class Hinder {
 }
 
 class Monster {
-  constructor(hastighet, x, y, höjd, längd, sträcka){
+  constructor(hastighet, x, y, höjd, längd, vänsterGräns, högerGräns){
     this.hastighet = hastighet;
     this.höjd=höjd;
     this.längd=längd;
-    this.sträcka=sträcka;
     this.x = x;
     this.y =y;
+    this.vänsterGräns = vänsterGräns
+    this.högerGräns = högerGräns
+    this.riktning = 1
   }
 }
 
-const Monster1 = new Monster(2, 10, 510, 60,60,10)
-let monsterLista = [Monster1]
+
+
+
+
+const Monster1 = new Monster(2, 10, 420, 60,60,10,500)
+const Monster2 = new Monster(5,30,30,25,25,30,150)
+const monsterLista = [Monster1, Monster2]
 
 function monsterRitas(){
   monsterLista.forEach(monster => {
-    c.fillRect(10,10,100,100);
+    c.fillRect(monster.x, monster.y, monster.längd, monster.höjd);
+    if (monster.x >monster.högerGräns) {
+      monster.riktning=-1
+    }
+    else if (monster.x < monster.vänsterGräns) {
+      monster.riktning=1
+    }
+    monster.x += monster.hastighet*monster.riktning
   });
+
 }
+
 
 
 const Hinder1 = new Hinder(0, 100, 400);
 const Hinder2 = new Hinder(0, 550, gameCanvas.width);
-const Hinder3 = new Hinder(410, 400, 100);
+const Hinder3 = new Hinder(410, 450, 100);
 hinderLista = [Hinder1, Hinder2, Hinder3];
 
 function gravity(player) {
@@ -124,6 +140,43 @@ let player = {
   currentImg: standingImg,
 };
 
+function monsterdöd() {
+  for (let j = 0; j < monsterLista.length; j++) {
+    const monster = monsterLista[j];
+    
+    if (
+      player.y + player.height > monster.y &&
+      player.y + player.height < monster.y + monster.höjd &&
+      monster.x < player.x + player.width &&
+      player.x < monster.x + monster.längd &&
+      player.velocityY > 0
+    ) {
+      player.velocityY = 0;
+      console.log("Monster killed!");
+      monsterLista.splice(j, 1);
+      j--; // Decrease j since we just removed a monster from the array
+    }
+  }
+}
+
+
+
+function spelarDöd() {
+  monsterLista.forEach(monster => {
+    if ((player.y<monster.y + monster.höjd
+    &&(player.y> monster.y )
+    || (player.y+player.height<monster.y+monster.höjd&&player.y+player.height&&player.y+player.height<monster.höjd))
+
+    && (player.x<monster.x+monster.längd
+    &&player.x+player.width>monster.x)) {
+      console.log("Du dör")
+      
+    }
+  });
+  
+}
+  
+
 // -------------------------------------
 // ------------ Player movement ------------
 document.addEventListener("keydown", (e) => {
@@ -165,7 +218,6 @@ function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
   // Apply gravity
   
-  c.fillRect(100,100,100,100)
   if (Faller(player)) {
     player.velocityY = 0;
     player.faller = false;
@@ -176,7 +228,13 @@ function animate() {
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
+
   background.draw();
+  monsterRitas()
+  monsterdöd()
+  spelarDöd()
+  
+
 
   spelPlan();
   if (player.directions.right) {
