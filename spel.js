@@ -64,7 +64,7 @@ class Monster {
   }
 }
 
-const Monster1 = new Monster(2, 10, 420, 60, 60, 10, 500);
+const Monster1 = new Monster(2, 100, 420, 60, 60, 150, 500);
 const Monster2 = new Monster(5, 30, 30, 50, 50, 30, 150);
 const monsterLista = [Monster1, Monster2];
 
@@ -116,7 +116,9 @@ function monsterdöd() {
 }
 
 function spelarDöd() {
-  monsterLista.forEach((monster) => {
+  for (let i = 0; i < monsterLista.length; i++) {
+    const monster = monsterLista[i];
+
     if (
       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
         (player.y + player.height < monster.y + monster.höjd &&
@@ -126,8 +128,10 @@ function spelarDöd() {
       player.x + player.width > monster.x
     ) {
       console.log("Du dör");
+      return true;
     }
-  });
+  }
+  return false;
 }
 
 function Faller(player) {
@@ -156,16 +160,9 @@ function Tak(player) {
       player.x < streck.varX + streck.längdX &&
       player.y < streck.varY &&
       player.y > streck.varY - 15
-
-
     ) {
-<<<<<<< HEAD
       player.velocityY = 0;
-      console.log("lsnjd");
-=======
 
-      console.log("lsnjd")
->>>>>>> b175cb66dae0cc03bd4d908c9a4379c80cff1c65
       return true;
     }
   }
@@ -199,7 +196,7 @@ let player = {
 // let gameCanvas = document.getElementById("gameCanvas");
 let spelplan1 = document.getElementById("spelplan1");
 
-let portal = {
+const portal = {
   x: 500,
   y: 460,
   height: 50,
@@ -296,12 +293,10 @@ function animate() {
   background.draw();
   monsterRitas();
   monsterdöd();
-  spelarDöd();
+  if (spelarDöd()) {
+    window.location.href = "spel-meny.html";
+  }
   // Set the font properties
-  c.font = "30px Arial";
-
-  // Write text on the canvas
-  c.fillText("Hello, World!", 50, 100);
 
   spelPlan();
   spelPlan1();
