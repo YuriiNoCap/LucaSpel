@@ -259,10 +259,6 @@ document.addEventListener("keyup", (e) => {
 // ------------ Animation ------------
 function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
-  // console.log(Faller(player));
-  // console.log(Tak(player));
-
-  // Apply gravity
   if (Faller(player)) {
     player.velocityY = 0;
     player.faller = false;
@@ -295,7 +291,6 @@ function animate() {
 c.font = "30px Arial";
 
 // Write text on the canvas
-c.fillText("Hello, World!", 50, 100);
 
   spelPlan();
   spelPlan1();
