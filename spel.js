@@ -16,6 +16,9 @@ jumpingImg.src =
 const movingImg = new Image();
 movingImg.src =
   "Images/Karaktär/Skärmbild_2023-05-05_123531-removebg-preview.png";
+const monsterImg = new Image();
+monsterImg.src =
+  "Images/Mönster/Skärmbild_2023-05-19_121921-removebg-preview.png";
 
 // Spel plan
 class Background {
@@ -49,35 +52,33 @@ hinderLista = [Hinder1, Hinder2, Hinder3];
 // console.log(hinderLista);
 
 class Monster {
-  constructor(hastighet, x, y, höjd, längd, vänsterGräns, högerGräns){
+  constructor(hastighet, x, y, höjd, längd, vänsterGräns, högerGräns) {
     this.hastighet = hastighet;
-    this.höjd=höjd;
-    this.längd=längd;
+    this.höjd = höjd;
+    this.längd = längd;
     this.x = x;
-    this.y =y;
-    this.vänsterGräns = vänsterGräns
-    this.högerGräns = högerGräns
-    this.riktning = 1
+    this.y = y;
+    this.vänsterGräns = vänsterGräns;
+    this.högerGräns = högerGräns;
+    this.riktning = 1;
   }
 }
 
-const Monster1 = new Monster(2, 10, 420, 60,60,10,500)
-const Monster2 = new Monster(5,30,30,25,25,30,150)
-const monsterLista = [Monster1, Monster2]
+const Monster1 = new Monster(2, 10, 420, 60, 60, 10, 500);
+const Monster2 = new Monster(5, 30, 30, 50, 50, 30, 150);
+const monsterLista = [Monster1, Monster2];
 
-function monsterRitas(){
-  monsterLista.forEach(monster => {
-    c.fillRect(monster.x, monster.y, monster.längd, monster.höjd);
-    if (monster.x >monster.högerGräns) {
-      monster.riktning=-1
+function monsterRitas() {
+  monsterLista.forEach((monster) => {
+    // Ritar monstret som en bild istället för en rektangel
+    c.drawImage(monsterImg, monster.x, monster.y, monster.längd, monster.höjd);
+    if (monster.x > monster.högerGräns) {
+      monster.riktning = -1;
+    } else if (monster.x < monster.vänsterGräns) {
+      monster.riktning = 1;
     }
-    else if (monster.x < monster.vänsterGräns) {
-      monster.riktning=1
-    }
-    monster.x += monster.hastighet*monster.riktning
+    monster.x += monster.hastighet * monster.riktning;
   });
-
-
 }
 
 function gravity(player) {
@@ -98,7 +99,7 @@ function spelPlan() {
 function monsterdöd() {
   for (let j = 0; j < monsterLista.length; j++) {
     const monster = monsterLista[j];
-    
+
     if (
       player.y + player.height > monster.y &&
       player.y + player.height < monster.y + monster.höjd &&
@@ -115,20 +116,20 @@ function monsterdöd() {
 }
 
 function spelarDöd() {
-  monsterLista.forEach(monster => {
-    if ((player.y<monster.y + monster.höjd
-    &&(player.y> monster.y )
-    || (player.y+player.height<monster.y+monster.höjd&&player.y+player.height&&player.y+player.height<monster.höjd))
-
-    && (player.x<monster.x+monster.längd
-    &&player.x+player.width>monster.x)) {
-      console.log("Du dör")
-      
+  monsterLista.forEach((monster) => {
+    if (
+      ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
+        (player.y + player.height < monster.y + monster.höjd &&
+          player.y + player.height &&
+          player.y + player.height < monster.höjd)) &&
+      player.x < monster.x + monster.längd &&
+      player.x + player.width > monster.x
+    ) {
+      console.log("Du dör");
     }
   });
-  
 }
-  
+
 function Faller(player) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
@@ -155,10 +156,10 @@ function Tak(player) {
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX
     ) {
-      player.velocityY=0
-      console.log("lsnjd")
+      player.velocityY = 0;
+      console.log("lsnjd");
       return true;
-    } 
+    }
   }
 }
 
@@ -286,14 +287,14 @@ function animate() {
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
   background.draw();
-  monsterRitas()
-  monsterdöd()
-  spelarDöd()
+  monsterRitas();
+  monsterdöd();
+  spelarDöd();
   // Set the font properties
-c.font = "30px Arial";
+  c.font = "30px Arial";
 
-// Write text on the canvas
-c.fillText("Hello, World!", 50, 100);
+  // Write text on the canvas
+  c.fillText("Hello, World!", 50, 100);
 
   spelPlan();
   spelPlan1();
