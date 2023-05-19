@@ -45,7 +45,9 @@ class Hinder {
 // const Hinder1 = new Hinder(0, 100, 400);
 const Hinder1 = new Hinder(0, 512, gameCanvas.width);
 const Hinder2 = new Hinder(410, 350, 100);
-hinderLista = [Hinder1, Hinder2];
+const Hinder3 = new Hinder(150, 350, 100);
+hinderLista = [Hinder1, Hinder2, Hinder3];
+// console.log(hinderLista);
 
 function gravity(player) {
   player.velocityY += player.gravity;
@@ -65,9 +67,13 @@ function spelPlan() {
 function Faller(player) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
+    console.log(streck);
+    console.log(streck.varY);
+    console.log(player.y);
+
     if (
       player.y + player.height >= streck.varY &&
-      player.y + player.height < streck.varY + 20 &&
+      player.y + player.height < streck.varY + 15 &&
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX
     ) {
@@ -80,13 +86,20 @@ function Faller(player) {
 function Tak(player) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
+    // console.log(streck);
+    // console.log(streck.varY);
+    // console.log(player.y);
     if (
+      // player.y > streck.varY
       player.y <= streck.varY &&
       player.y > streck.varY + 40 &&
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX
     ) {
-      player.Faller = false;
+      player.y += 40;
+      return true;
+    } else {
+      return false;
     }
   }
 }
@@ -114,6 +127,37 @@ let player = {
   movingImg: movingImg,
   currentImg: standingImg,
 };
+
+// Portal
+// let gameCanvas = document.getElementById("gameCanvas");
+let spelplan1 = document.getElementById("spelplan1");
+
+let portal = {
+  x: 500,
+  y: 460,
+  height: 50,
+};
+
+let portalLista = [portal];
+
+function spelPlan1() {
+  for (let j = 0; j < portalLista.length; j++) {
+    const e = portalLista[j];
+    c.beginPath();
+    c.moveTo(e.x, e.y);
+    c.lineTo(e.x, e.y + e.height);
+    c.stroke();
+  }
+}
+
+function portalCheck() {
+  if (player.x > portal.x && player.y > portal.y) {
+    gameCanvas.style.display = "none";
+    spelplan1.style.display = "block";
+  }
+}
+
+setInterval(portalCheck, 10);
 
 // -------------------------------------
 // ------------ Player movement ------------
@@ -155,7 +199,9 @@ console.log(hinderLista);
 // ------------ Animation ------------
 function animate() {
   requestAnimationFrame(animate); // Run gameloop recursively
-  console.log(Faller(player));
+  // console.log(Faller(player));
+  // console.log(Tak(player));
+
   // Apply gravity
   if (Faller(player)) {
     player.velocityY = 0;
@@ -165,9 +211,15 @@ function animate() {
     player.faller = true;
   }
   if (Tak(player)) {
+    console.log("aj");
     player.velocityY = 0;
-    gravity(player);
+    // gravity(player);
+    player.faller = true;
   }
+  // if (Tak(player)) {
+  //   player.velocityY = 0;
+  //   // gravity(player);
+  // }
   // if (player.y + player.height < Hinder.varY) {
   //   // Ska hoppa här
   // } else {
@@ -179,6 +231,7 @@ function animate() {
   background.draw();
 
   spelPlan();
+  spelPlan1();
   if (player.directions.right) {
     player.currentImg = movingImg;
     c.drawImage(
