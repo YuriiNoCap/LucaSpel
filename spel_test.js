@@ -229,7 +229,9 @@ function spelarDöd() {
 
     && (player.x<monster.x+monster.längd
     &&player.x+player.width>monster.x)) {
-      console.log("Du dör")
+      console.log("D dör")
+
+      setTimeout(function(){},2000)
       
     }
   });
