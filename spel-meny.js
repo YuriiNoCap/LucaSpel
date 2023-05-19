@@ -2,6 +2,9 @@ function showDifficulty() {
   // Hämta body-elementet från DOM:en
   var body = document.getElementsByTagName("body")[0];
 
+  // Ta bort allt befintligt innehåll
+  body.innerHTML = "";
+
   // Skapa en div för svårighetsgraden
   var difficultyDiv = document.createElement("div");
 
@@ -15,7 +18,6 @@ function showDifficulty() {
   easyButton.innerHTML = "Lätt";
   easyButton.addEventListener("click", function () {
     startGame("easy");
-    body.removeChild(difficultyDiv);
   });
   difficultyDiv.appendChild(easyButton);
 
@@ -23,25 +25,29 @@ function showDifficulty() {
   hardButton.innerHTML = "Svårt";
   hardButton.addEventListener("click", function () {
     startGame("hard");
-    body.removeChild(difficultyDiv);
   });
   difficultyDiv.appendChild(hardButton);
-
-  // Ta bort "Ok"-knappen
-  body.removeChild(document.getElementsByTagName("button")[0]);
 
   // Lägg till svårighetsgraden i DOM:en
   body.appendChild(difficultyDiv);
 }
 
 function startGame(difficulty) {
-  // Skapa spelet baserat på svårighetsgraden
-  var canvas = document.getElementById("gameCanvas");
-  canvas.style.display = "block";
+  // Ta bort allt befintligt innehåll
+  var body = document.getElementsByTagName("body")[0];
+  body.innerHTML = "";
 
+  // Skapa spelet baserat på svårighetsgraden
+  var canvas = document.createElement("canvas");
+  canvas.id = "gameCanvas";
+  canvas.style.display = "block";
+  body.appendChild(canvas);
+
+  // Skapa spellogik baserat på svårighetsgraden
   if (difficulty === "easy") {
-    // Skapa spelet i lätt svårighetsgrad
+    // Implementera spelet i lätt svårighetsgrad
+    window.location.href = "easy.html";
   } else if (difficulty === "hard") {
-    // Skapa spelet i svår svårighetsgrad
+    // Implementera spelet i svår svårighetsgrad
   }
 }
