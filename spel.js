@@ -147,15 +147,18 @@ function Faller(player) {
 function Tak(player) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
-    console.log(streck);
+    // console.log(streck);
     // console.log(streck.varY);
     // console.log(player.y);
     if (
-      // player.y > streck.varY
       streck.varX < player.x + player.width &&
-      player.x < streck.varX + streck.längdX
+      player.x < streck.varX + streck.längdX &&
+      player.y < streck.varY &&
+      player.y > streck.varY - 15
+
+
     ) {
-      player.velocityY=0
+
       console.log("lsnjd")
       return true;
     } 
@@ -268,8 +271,7 @@ function animate() {
     player.faller = true;
   }
   if (Tak(player)) {
-    console.log("aj");
-    player.velocityY = 0;
+    player.velocityY = 3;
     // gravity(player);
     player.faller = true;
   }
