@@ -3,6 +3,7 @@ const c = gameCanvas.getContext("2d");
 gameCanvas.height = window.innerHeight;
 gameCanvas.width = window.innerWidth;
 
+// Skapar bakgrunden
 export class Background {
   constructor(src) {
     this.image = src;
@@ -29,7 +30,7 @@ export class Hinder {
   constructor(x, y, längd) {
     this.x = x;
     this.y = y;
-    this.längd =längd; 
+    this.längd = längd;
   }
 }
 
@@ -46,6 +47,7 @@ export class Monster {
   }
 }
 
+// Bilder som skapar en "animationsbild" för spelaren. Bilden på monster
 const standingImg = new Image();
 standingImg.src =
   "Images/Karaktär/Skärmbild_2023-05-05_123538-removebg-preview.png";
@@ -71,11 +73,13 @@ export function monsterRitas(monsterLista) {
   });
 }
 
+// Implementerar gravtationseffekten
 export function gravitation(spelare) {
   spelare.hastighetY += spelare.gravitaionKonstant;
   spelare.y += spelare.hastighetY;
 }
 
+// Ritar hinder på spelplanen
 export function spelPlan(hinderLista) {
   for (let j = 0; j < hinderLista.length; j++) {
     const hinder = hinderLista[j];
@@ -86,6 +90,7 @@ export function spelPlan(hinderLista) {
   }
 }
 
+// Dödar mpnster när spelaren hoppar på den
 export function monsterDöd(monsterLista, spelare) {
   for (let j = 0; j < monsterLista.length; j++) {
     const monster = monsterLista[j];
@@ -98,36 +103,42 @@ export function monsterDöd(monsterLista, spelare) {
       spelare.hastighetY > 0
     ) {
       spelare.hastighetY = 0;
-      console.log("Monster killed!");
       monsterLista.splice(j, 1);
       j--;
     }
   }
 }
 
+// Dödar spelaren om den rörde monstret "inte ovanifrån" eller hamnat utanför spelplan
 export function spelarDöd(monsterLista, spelare) {
   for (let i = 0; i < monsterLista.length; i++) {
+    if (spelare.y > gameCanvas.height) {
+      return true;
+    }
+
     const monster = monsterLista[i];
 
     if (
       ((spelare.y < monster.y + monster.höjd && spelare.y > monster.y) ||
-        (spelare.y + spelare.höjd < monster.y + monster.höjd &&
-          spelare.y + spelare.höjd &&
-          spelare.y + spelare.höjd < monster.höjd)) &&
-      spelare.x < monster.x + monster.längd &&
-      spelare.x + spelare.bredd > monster.x
+        (spelare.y + spelare.höjd > monster.y &&
+          spelare.y < monster.y + monster.höjd)) &&
+      ((spelare.x < monster.x + monster.längd &&
+        spelare.x + spelare.bredd > monster.x) ||
+        (spelare.x + spelare.bredd > monster.x &&
+          spelare.x < monster.x + monster.längd))
     ) {
       return true;
     }
   }
 }
 
+// Gör så att spelaren faller tills den kommer i kontakt med hinder
 export function faller(spelare, hinderLista) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
     if (
       spelare.y + spelare.höjd > streck.y &&
-      spelare.y + spelare.höjd < streck.y + 15 &&
+      spelare.y + spelare.höjd < streck.y + 25 &&
       streck.x < spelare.x + spelare.bredd &&
       spelare.x < streck.x + streck.längd
     ) {
@@ -137,15 +148,15 @@ export function faller(spelare, hinderLista) {
   return false;
 }
 
+// Gör så att spelaren kan inte gå igenom hinder nerifrån också
 export function tak(spelare, hinderLista) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
     if (
       streck.x < spelare.x + spelare.bredd &&
-spelare.x < streck.x + streck.längd &&
-spelare.y < streck.y &&
-spelare.y > streck.y - 15
-
+      spelare.x < streck.x + streck.längd &&
+      spelare.y < streck.y &&
+      spelare.y > streck.y - 15
     ) {
       spelare.hastighetY = 0;
 
@@ -162,7 +173,11 @@ export function ritaPortaler(portal) {
 }
 
 export function portalCheck(portal, spelare) {
-  if (spelare.x > portal.x && spelare.y > portal.y && spelare.y < portal.y +portal.höjd) {
+  if (
+    spelare.x > portal.x &&
+    spelare.y > portal.y &&
+    spelare.y < portal.y + portal.höjd
+  ) {
     window.location.href = "spel-meny.html";
   }
 }

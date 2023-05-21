@@ -58,8 +58,7 @@ let spelare = {
   currentImg: standingImg,
 };
 
-
-const Hinder1 = new Hinder(0, 550, gameCanvas.width);
+const Hinder1 = new Hinder(0, 513, gameCanvas.width);
 const Hinder2 = new Hinder(0, -10, gameCanvas.width);
 const Hinder3 = new Hinder(100, 450, 150);
 const Hinder4 = new Hinder(1000, 400, 150);
@@ -84,12 +83,12 @@ const Monster2 = new Monster(5, 1000, 200, 50, 50, 1000, 1200);
 const Monster3 = new Monster(5, 300, 350, 60, 60, 300, 400);
 const Monster4 = new Monster(7, 730, 330, 60, 60, 730, 1000);
 const Monster5 = new Monster(3, 485, 202, 60, 60, 485, 600);
-// const Monster6 = new Monster(3, 500, 45, 27, 27, 500, 600);
 
 let monsterLista = [Monster1, Monster2, Monster3, Monster4, Monster5];
 
 const Portal1 = new Portal(gameCanvas.width - 2, 0, 70);
 
+// Eventlyssnare som reagerar när man trycker på knappen
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
@@ -115,9 +114,10 @@ document.addEventListener("keyup", (e) => {
       spelare.riktning.höger = false;
       break;
     case "ArrowUp":
-      if (spelare.faller == false){
-         spelare.hastighetY = -15;}
-         gravitation(spelare);
+      if (spelare.faller == false) {
+        spelare.hastighetY = -15;
+      }
+      gravitation(spelare);
       break;
     default:
       break;

@@ -58,7 +58,7 @@ let spelare = {
   currentImg: standingImg,
 };
 
-const Hinder1 = new Hinder(0, 550, gameCanvas.width);
+const Hinder1 = new Hinder(0, 513, gameCanvas.width);
 const Hinder2 = new Hinder(430, 400, 100);
 const Hinder3 = new Hinder(150, 400, 100);
 const Hinder4 = new Hinder(650, 250, 100);
@@ -82,6 +82,7 @@ let monsterLista = [Monster1];
 
 const Portal1 = new Portal(gameCanvas.width - 2, 0, 70);
 
+// Eventlyssnare som reagerar när man trycker på knappen
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
@@ -107,9 +108,10 @@ document.addEventListener("keyup", (e) => {
       spelare.riktning.höger = false;
       break;
     case "ArrowUp":
-      if (spelare.faller == false){
-         spelare.hastighetY = -15;}
-         gravitation(spelare);
+      if (spelare.faller == false) {
+        spelare.hastighetY = -15;
+      }
+      gravitation(spelare);
       break;
     default:
       break;
