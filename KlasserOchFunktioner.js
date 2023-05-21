@@ -108,7 +108,9 @@ export function monsterdöd(monsterLista, player) {
 }
 
 export function spelarDöd(monsterLista, player) {
-  monsterLista.forEach((monster) => {
+  for (let i = 0; i < monsterLista.length; i++) {
+    const monster = monsterLista[i];
+
     if (
       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
         (player.y + player.height < monster.y + monster.höjd &&
@@ -117,9 +119,10 @@ export function spelarDöd(monsterLista, player) {
       player.x < monster.x + monster.längd &&
       player.x + player.width > monster.x
     ) {
-      console.log("Du dör");
+      console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
+      return true;
     }
-  });
+  }
 }
 
 export function Faller(player, hinderLista) {
@@ -165,7 +168,8 @@ export function spelPlan1(portal) {
 
 export function portalCheck(portal, player) {
   if (player.x > portal.x && player.y > portal.y) {
-    gameCanvas.style.display = "none";
-    spelplan1.style.display = "block";
+    // gameCanvas.style.display = "none";
+    // spelplan1.style.display = "block";
+    window.location.href = "spel-meny.html";
   }
 }

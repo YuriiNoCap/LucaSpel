@@ -64,11 +64,7 @@ class Monster {
   }
 }
 
-<<<<<<< HEAD
 const Monster1 = new Monster(2, 200, 420, 60, 60, 130, 500);
-=======
-const Monster1 = new Monster(2, 100, 420, 60, 60, 150, 500);
->>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 const Monster2 = new Monster(5, 30, 30, 50, 50, 30, 150);
 const monsterLista = [Monster1, Monster2];
 
@@ -118,32 +114,10 @@ function monsterdöd() {
   }
 }
 
-// function spelarDöd() {
-//   monsterLista.forEach((monster) => {
-//     if (
-//       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
-//         (player.y + player.height < monster.y + monster.höjd &&
-//           player.y + player.height &&
-//           player.y + player.height < monster.höjd)) &&
-//       player.x < monster.x + monster.längd &&
-//       player.x + player.width > monster.x
-//     ) {
-//       console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD")
-//       return true
-      
-//     }
-//   });
-// }
-
-
 function spelarDöd() {
   for (let i = 0; i < monsterLista.length; i++) {
     const monster = monsterLista[i];
-<<<<<<< HEAD
-    
-=======
 
->>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
     if (
       ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
         (player.y + player.height < monster.y + monster.höjd &&
@@ -152,22 +126,19 @@ function spelarDöd() {
       player.x < monster.x + monster.längd &&
       player.x + player.width > monster.x
     ) {
-<<<<<<< HEAD
       console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
       return true;
     }
   }
-  
-  return false; // Returnera false om ingen kollision har inträffat
-=======
-      console.log("Du dör");
-      return true;
-    }
-  }
-  return false;
->>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 }
 
+//   return false; // Returnera false om ingen kollision har inträffat
+//       console.log("Du dör");
+//       return true;
+//     }
+//   }
+//   return false;
+// }
 
 function Faller(player) {
   for (let i = 0; i < hinderLista.length; i++) {
@@ -296,7 +267,6 @@ document.addEventListener("keyup", (e) => {
 // -------------------------------------
 // ------------ Animation ------------
 function animate() {
-  
   requestAnimationFrame(animate); // Run gameloop recursively
   if (Faller(player)) {
     player.velocityY = 0;
@@ -320,62 +290,19 @@ function animate() {
   // // Ska inte hoppa här
 
   // }
-  
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
   // Här händer det grejer
   background.draw();
   monsterRitas();
   monsterdöd();
-<<<<<<< HEAD
-  // if (spelarDöd()) {
-  //   const gameOverElement = document.createElement("div");
-  //   gameOverElement.id = "game-over";
-  //   gameOverElement.innerText = "Game Over";
-  //   document.body.appendChild(gameOverElement);
-  //   pausaSpelet();
 
-  //   setTimeout(function () {
-  //     window.location.href = "spel-meny.html";
-  //   }, 2000);
-  // }
-
-  
-  // if (spelarDöd()) {
-    
-  //   const gameOverElement = document.createElement("div");
-  //   gameOverElement.id = "game-over";
-  //   gameOverElement.innerText = "Game Over";
-  //   document.body.appendChild(gameOverElement);
-  //   document.body.style.pointerEvents = "none";
-
-  //   setTimeout(function () {
-  //     window.location.href = "spel-meny.html";
-  //   }, 1000);
-    
-  // }
-
-
-  // if (spelarDöd()) {
-  //   document.body.innerHTML = "<h1>Game Over</h1>";
-  //   setTimeout(function () {
-  //     window.location.href = "spel-meny.html";
-  //   }, 2000);
-  // }
-
-  if (spelarDöd()){
+  if (spelarDöd()) {
     window.location.href = "timer.html";
   }
 
   // Set the font properties
-
-
-=======
-  if (spelarDöd()) {
-    window.location.href = "spel-meny.html";
-  }
   // Set the font properties
->>>>>>> 48516a8925051438a8c64d176f38b39d638f1bd4
 
   spelPlan();
   spelPlan1();
@@ -421,6 +348,5 @@ function animate() {
       player.height
     );
   }
-
 }
 animate();

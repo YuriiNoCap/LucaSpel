@@ -64,12 +64,13 @@ let player = {
 };
 
 const Hinder1 = new Hinder(0, 512, gameCanvas.width);
-const Hinder2 = new Hinder(430, 400, 100);
-const Hinder3 = new Hinder(150, 400, 100);
-const Hinder4 = new Hinder(650, 250, 100);
-const Hinder5 = new Hinder(870, 150, 200);
-const Hinder6 = new Hinder(1150, 70, 150);
-const Hinder7 = new Hinder(0, -10, gameCanvas.width);
+const Hinder2 = new Hinder(0, -10, gameCanvas.width);
+const Hinder3 = new Hinder(100, 450, 150);
+const Hinder4 = new Hinder(1000, 400, 150);
+const Hinder5 = new Hinder(700, 200, 100);
+const Hinder6 = new Hinder(500, 250, 200);
+const Hinder7 = new Hinder(250, 170, 150);
+const Hinder8 = new Hinder(500, 70, 778);
 
 let hinderLista = [
   Hinder1,
@@ -79,17 +80,19 @@ let hinderLista = [
   Hinder5,
   Hinder6,
   Hinder7,
+  Hinder8,
 ];
 
-// const Monster1 = new Monster(2, 100, 420, 60, 60, 100, 500);
-// const Monster2 = new Monster(5, 100, 200, 50, 50, 100, 150);
-const Monster1 = new Monster(2, 250, 300, 60, 60, 260, 370);
+const Monster1 = new Monster(3, 105, 460, 60, 60, 105, 205);
+const Monster2 = new Monster(5, 1000, 200, 50, 50, 1000, 1200);
+const Monster3 = new Monster(5, 300, 350, 60, 60, 300, 400);
+const Monster4 = new Monster(7, 730, 330, 60, 60, 730, 1000);
+const Monster5 = new Monster(3, 485, 202, 60, 60, 485, 600);
+const Monster6 = new Monster(3, 500, 45, 27, 27, 500, 600);
 
-let monsterLista = [Monster1];
+let monsterLista = [Monster1, Monster2, Monster3, Monster4, Monster5, Monster6];
 
 const Portal1 = new Portal(gameCanvas.width - 2, 0, 70);
-
-// let spelplan1 = document.getElementById("spel-meny");
 
 document.addEventListener("keydown", (e) => {
   switch (e.key) {

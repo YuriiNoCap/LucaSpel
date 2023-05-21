@@ -46,11 +46,10 @@ function startGame(difficulty) {
   // Skapa spellogik baserat på svårighetsgraden
   if (difficulty === "easy") {
     // Implementera spelet i lätt svårighetsgrad
-    window.location.href = "easy.html";
+    window.location.href = "lätt-spelplan.html";
   } else if (difficulty === "hard") {
     // Implementera spelet i svår svårighetsgrad
-    window.location.href = "hard.html";
-
+    window.location.href = "svår-spelplan.html";
   }
 }
 // '''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''''
@@ -130,7 +129,6 @@ function startGame(difficulty) {
 // // Starta spelet genom att visa svårighetsgradsväljaren
 // showDifficulty();
 
-
 // -----------------------------------------------------------------------------
 
 // function showDifficulty() {
@@ -203,4 +201,3 @@ function startGame(difficulty) {
 
 // // Starta spelet genom att visa svårighetsgradsväljaren
 // showDifficulty();
-
