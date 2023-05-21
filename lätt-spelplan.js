@@ -3,13 +3,13 @@ import {
   Hinder,
   Monster,
   monsterRitas,
-  gravity,
+  gravitation,
   spelPlan,
-  monsterdöd,
+  monsterDöd,
   spelarDöd,
-  Faller,
-  Tak,
-  spelPlan1,
+  faller,
+  tak,
+  ritaPortaler,
   portalCheck,
   Portal,
 } from "./KlasserOchFunktioner.js";
@@ -37,18 +37,18 @@ gameCanvas.width = window.innerWidth;
 const img = document.getElementById("bild");
 const background = new Background(img);
 
-let player = {
-  gravity: 0.5,
-  velocityY: 0,
+let spelare = {
+  gravitaionKonstant: 0.5,
+  hastighetY: 0,
   x: 20,
   y: 300,
   dx: 5,
   faller: true,
-  height: 50,
-  width: 50,
-  directions: {
-    left: false,
-    right: false,
+  höjd: 50,
+  bredd: 50,
+  riktning: {
+    vänster: false,
+    höger: false,
     up: false,
     down: false,
   },
@@ -58,7 +58,7 @@ let player = {
   currentImg: standingImg,
 };
 
-const Hinder1 = new Hinder(0, 512, gameCanvas.width);
+const Hinder1 = new Hinder(0, 550, gameCanvas.width);
 const Hinder2 = new Hinder(430, 400, 100);
 const Hinder3 = new Hinder(150, 400, 100);
 const Hinder4 = new Hinder(650, 250, 100);
@@ -85,12 +85,12 @@ const Portal1 = new Portal(gameCanvas.width - 2, 0, 70);
 document.addEventListener("keydown", (e) => {
   switch (e.key) {
     case "ArrowLeft":
-      player.directions.left = true;
-      player.currentImg = movingImg;
+      spelare.riktning.vänster = true;
+      spelare.currentImg = movingImg;
       break;
     case "ArrowRight":
-      player.directions.right = true;
-      player.currentImg = movingImg;
+      spelare.riktning.höger = true;
+      spelare.currentImg = movingImg;
       break;
 
     default:
@@ -101,14 +101,15 @@ document.addEventListener("keydown", (e) => {
 document.addEventListener("keyup", (e) => {
   switch (e.key) {
     case "ArrowLeft":
-      player.directions.left = false;
+      spelare.riktning.vänster = false;
       break;
     case "ArrowRight":
-      player.directions.right = false;
+      spelare.riktning.höger = false;
       break;
     case "ArrowUp":
-      if (player.faller == false) player.velocityY = -15;
-      gravity(player);
+      if (spelare.faller == false){
+         spelare.hastighetY = -15;}
+         gravitation(spelare);
       break;
     default:
       break;
@@ -118,69 +119,69 @@ document.addEventListener("keyup", (e) => {
 function animate() {
   requestAnimationFrame(animate);
 
-  if (Faller(player, hinderLista)) {
-    player.velocityY = 0;
-    player.faller = false;
+  if (faller(spelare, hinderLista)) {
+    spelare.hastighetY = 0;
+    spelare.faller = false;
   } else {
-    gravity(player);
-    player.faller = true;
+    gravitation(spelare);
+    spelare.faller = true;
   }
-  if (Tak(player, hinderLista)) {
-    player.velocityY = 3;
-    player.faller = true;
+  if (tak(spelare, hinderLista)) {
+    spelare.hastighetY = 3;
+    spelare.faller = true;
   }
 
   c.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
-  setInterval(portalCheck(Portal1, player), 10);
+  setInterval(portalCheck(Portal1, spelare), 10);
   background.draw();
   monsterRitas(monsterLista);
-  monsterdöd(monsterLista, player);
-  if (spelarDöd(monsterLista, player)) {
+  monsterDöd(monsterLista, spelare);
+  if (spelarDöd(monsterLista, spelare)) {
     window.location.href = "timer.html";
   }
 
   spelPlan(hinderLista);
-  spelPlan1(Portal1);
-  if (player.directions.right) {
-    player.currentImg = movingImg;
+  ritaPortaler(Portal1);
+  if (spelare.riktning.höger) {
+    spelare.currentImg = movingImg;
     c.drawImage(
-      player.currentImg,
-      player.x,
-      player.y,
-      player.width,
-      player.height
+      spelare.currentImg,
+      spelare.x,
+      spelare.y,
+      spelare.bredd,
+      spelare.höjd
     );
-    player.x += player.dx;
-  } else if (player.directions.left) {
-    player.currentImg = movingImg;
+    spelare.x += spelare.dx;
+  } else if (spelare.riktning.vänster) {
+    spelare.currentImg = movingImg;
     c.save();
     c.scale(-1, 1);
     c.drawImage(
-      player.currentImg,
-      -player.x - player.width,
-      player.y,
-      player.width,
-      player.height
+      spelare.currentImg,
+      -spelare.x - spelare.bredd,
+      spelare.y,
+      spelare.bredd,
+      spelare.höjd
     );
     c.restore();
-    player.x -= player.dx;
-  } else if (player.velocityY != 0) {
-    player.currentImg = jumpingImg;
+    spelare.x -= spelare.dx;
+  } else if (spelare.hastighetY != 0) {
+    spelare.currentImg = jumpingImg;
     c.drawImage(
-      player.currentImg,
-      player.x,
-      player.y,
-      player.width,
-      player.height
+      spelare.currentImg,
+      spelare.x,
+      spelare.y,
+      spelare.bredd,
+      spelare.höjd
     );
   } else {
-    player.currentImg = standingImg;
+    spelare.currentImg = standingImg;
     c.drawImage(
-      player.currentImg,
-      player.x,
-      player.y,
-      player.width,
-      player.height
+      spelare.currentImg,
+      spelare.x,
+      spelare.y,
+      spelare.höjd,
+      spelare.höjd
     );
   }
 }

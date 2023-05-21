@@ -1,7 +1,7 @@
 const gameCanvas = document.getElementById("gameCanvas");
 const c = gameCanvas.getContext("2d");
 gameCanvas.height = window.innerHeight;
-gameCanvas.width = window.ndoinnerWidth;
+gameCanvas.width = window.innerWidth;
 
 export class Background {
   constructor(src) {
@@ -26,10 +26,10 @@ export class Portal {
 }
 
 export class Hinder {
-  constructor(varX, varY, längdX) {
-    this.varX = varX;
-    this.varY = varY;
-    this.längdX = längdX;
+  constructor(x, y, längd) {
+    this.x = x;
+    this.y = y;
+    this.längd =längd; 
   }
 }
 
@@ -71,33 +71,33 @@ export function monsterRitas(monsterLista) {
   });
 }
 
-export function gravity(player) {
-  player.velocityY += player.gravity;
-  player.y += player.velocityY;
+export function gravitation(spelare) {
+  spelare.hastighetY += spelare.gravitaionKonstant;
+  spelare.y += spelare.hastighetY;
 }
 
 export function spelPlan(hinderLista) {
   for (let j = 0; j < hinderLista.length; j++) {
-    const e = hinderLista[j];
+    const hinder = hinderLista[j];
     c.beginPath();
-    c.moveTo(e.varX, e.varY);
-    c.lineTo(e.varX + e.längdX, e.varY);
+    c.moveTo(hinder.x, hinder.y);
+    c.lineTo(hinder.x + hinder.längd, hinder.y);
     c.stroke();
   }
 }
 
-export function monsterdöd(monsterLista, player) {
+export function monsterDöd(monsterLista, spelare) {
   for (let j = 0; j < monsterLista.length; j++) {
     const monster = monsterLista[j];
 
     if (
-      player.y + player.height > monster.y &&
-      player.y + player.height < monster.y + monster.höjd &&
-      monster.x < player.x + player.width &&
-      player.x < monster.x + monster.längd &&
-      player.velocityY > 0
+      spelare.y + spelare.höjd > monster.y &&
+      spelare.y + spelare.höjd < monster.y + monster.höjd &&
+      monster.x < spelare.x + spelare.bredd &&
+      spelare.x < monster.x + monster.längd &&
+      spelare.hastighetY > 0
     ) {
-      player.velocityY = 0;
+      spelare.hastighetY = 0;
       console.log("Monster killed!");
       monsterLista.splice(j, 1);
       j--;
@@ -105,32 +105,31 @@ export function monsterdöd(monsterLista, player) {
   }
 }
 
-export function spelarDöd(monsterLista, player) {
+export function spelarDöd(monsterLista, spelare) {
   for (let i = 0; i < monsterLista.length; i++) {
     const monster = monsterLista[i];
 
     if (
-      ((player.y < monster.y + monster.höjd && player.y > monster.y) ||
-        (player.y + player.height < monster.y + monster.höjd &&
-          player.y + player.height &&
-          player.y + player.height < monster.höjd)) &&
-      player.x < monster.x + monster.längd &&
-      player.x + player.width > monster.x
+      ((spelare.y < monster.y + monster.höjd && spelare.y > monster.y) ||
+        (spelare.y + spelare.höjd < monster.y + monster.höjd &&
+          spelare.y + spelare.höjd &&
+          spelare.y + spelare.höjd < monster.höjd)) &&
+      spelare.x < monster.x + monster.längd &&
+      spelare.x + spelare.bredd > monster.x
     ) {
-      console.log("DDDDDDDDDDDDDDDDDDDDDDDDDDDDDDDD");
       return true;
     }
   }
 }
 
-export function Faller(player, hinderLista) {
+export function faller(spelare, hinderLista) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
     if (
-      player.y + player.height >= streck.varY &&
-      player.y + player.height < streck.varY + 15 &&
-      streck.varX < player.x + player.width &&
-      player.x < streck.varX + streck.längdX
+      spelare.y + spelare.höjd > streck.y &&
+      spelare.y + spelare.höjd < streck.y + 15 &&
+      streck.x < spelare.x + spelare.bredd &&
+      spelare.x < streck.x + streck.längd
     ) {
       return true;
     }
@@ -138,31 +137,32 @@ export function Faller(player, hinderLista) {
   return false;
 }
 
-export function Tak(player, hinderLista) {
+export function tak(spelare, hinderLista) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
     if (
-      streck.varX < player.x + player.width &&
-      player.x < streck.varX + streck.längdX &&
-      player.y < streck.varY &&
-      player.y > streck.varY - 15
+      streck.x < spelare.x + spelare.bredd &&
+spelare.x < streck.x + streck.längd &&
+spelare.y < streck.y &&
+spelare.y > streck.y - 15
+
     ) {
-      player.velocityY = 0;
+      spelare.hastighetY = 0;
 
       return true;
     }
   }
 }
 
-export function spelPlan1(portal) {
+export function ritaPortaler(portal) {
   c.beginPath();
   c.moveTo(portal.x, portal.y);
   c.lineTo(portal.x, portal.y + portal.höjd);
   c.stroke();
 }
 
-export function portalCheck(portal, player) {
-  if (player.x > portal.x && player.y > portal.y) {
+export function portalCheck(portal, spelare) {
+  if (spelare.x > portal.x && spelare.y > portal.y && spelare.y < portal.y +portal.höjd) {
     window.location.href = "spel-meny.html";
   }
 }
