@@ -83,9 +83,9 @@ const Monster2 = new Monster(5, 1000, 200, 50, 50, 1000, 1200);
 const Monster3 = new Monster(5, 300, 350, 60, 60, 300, 400);
 const Monster4 = new Monster(7, 730, 330, 60, 60, 730, 1000);
 const Monster5 = new Monster(3, 485, 202, 60, 60, 485, 600);
-const Monster6 = new Monster(3, 500, 45, 27, 27, 500, 600);
+// const Monster6 = new Monster(3, 500, 45, 27, 27, 500, 600);
 
-let monsterLista = [Monster1, Monster2, Monster3, Monster4, Monster5, Monster6];
+let monsterLista = [Monster1, Monster2, Monster3, Monster4, Monster5];
 
 const Portal1 = new Portal(gameCanvas.width - 2, 0, 70);
 
