@@ -12,10 +12,8 @@ import {
   spelPlan1,
   portalCheck,
   Portal,
-  //   player,
 } from "./KlasserOchFunktioner.js";
 
-//Images
 const standingImg = new Image();
 standingImg.src =
   "Images/Karaktär/Skärmbild_2023-05-05_123538-removebg-preview.png";
@@ -29,13 +27,10 @@ const monsterImg = new Image();
 monsterImg.src =
   "Images/Mönster/Skärmbild_2023-05-19_121921-removebg-preview.png";
 
-// -------------------------------------
-// ------------ Player movement ------------
-
 window.focus;
 
 const gameCanvas = document.getElementById("gameCanvas");
-const c = gameCanvas.getContext("2d"); // Drawing object
+const c = gameCanvas.getContext("2d");
 gameCanvas.height = window.innerHeight;
 gameCanvas.width = window.innerWidth;
 
@@ -119,7 +114,6 @@ document.addEventListener("keyup", (e) => {
       player.directions.right = false;
       break;
     case "ArrowUp":
-      // Only jump if player is on the ground
       if (player.faller == false) player.velocityY = -15;
       gravity(player);
       break;
@@ -127,14 +121,10 @@ document.addEventListener("keyup", (e) => {
       break;
   }
 });
-// -------------------------------------
-// ------------ Animation ------------
-function animate() {
-  requestAnimationFrame(animate); // Run gameloop recursively
-  // console.log(Faller(player));
-  // console.log(Tak(player));
 
-  // Apply gravity
+function animate() {
+  requestAnimationFrame(animate);
+
   if (Faller(player, hinderLista)) {
     player.velocityY = 0;
     player.faller = false;
@@ -144,21 +134,10 @@ function animate() {
   }
   if (Tak(player, hinderLista)) {
     player.velocityY = 3;
-    // gravity(player);
     player.faller = true;
   }
-  // if (Tak(player)) {
-  //   player.velocityY = 0;
-  //   // gravity(player);
-  // }
-  // if (player.y + player.height < Hinder.varY) {
-  //   // Ska hoppa här
-  // } else {
-  // // Ska inte hoppa här
-  // }
 
-  c.clearRect(0, 0, gameCanvas.width, gameCanvas.height); // Clear screen
-  // Här händer det grejer
+  c.clearRect(0, 0, gameCanvas.width, gameCanvas.height);
   setInterval(portalCheck(Portal1, player), 10);
   background.draw();
   monsterRitas(monsterLista);
@@ -166,7 +145,6 @@ function animate() {
   if (spelarDöd(monsterLista, player)) {
     window.location.href = "timer.html";
   }
-  // Set the font properties
 
   spelPlan(hinderLista);
   spelPlan1(Portal1);

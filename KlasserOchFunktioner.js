@@ -1,5 +1,5 @@
 const gameCanvas = document.getElementById("gameCanvas");
-const c = gameCanvas.getContext("2d"); // Drawing object
+const c = gameCanvas.getContext("2d");
 gameCanvas.height = window.innerHeight;
 gameCanvas.width = window.ndoinnerWidth;
 
@@ -46,7 +46,6 @@ export class Monster {
   }
 }
 
-// Images
 const standingImg = new Image();
 standingImg.src =
   "Images/Karaktär/Skärmbild_2023-05-05_123538-removebg-preview.png";
@@ -62,7 +61,6 @@ monsterImg.src =
 
 export function monsterRitas(monsterLista) {
   monsterLista.forEach((monster) => {
-    // Ritar monstret som en bild istället för en rektangel
     c.drawImage(monsterImg, monster.x, monster.y, monster.längd, monster.höjd);
     if (monster.x > monster.högerGräns) {
       monster.riktning = -1;
@@ -102,7 +100,7 @@ export function monsterdöd(monsterLista, player) {
       player.velocityY = 0;
       console.log("Monster killed!");
       monsterLista.splice(j, 1);
-      j--; // Decrease j since we just removed a monster from the array
+      j--;
     }
   }
 }
@@ -143,9 +141,6 @@ export function Faller(player, hinderLista) {
 export function Tak(player, hinderLista) {
   for (let i = 0; i < hinderLista.length; i++) {
     const streck = hinderLista[i];
-    // console.log(streck);
-    // console.log(streck.varY);
-    // console.log(player.y);
     if (
       streck.varX < player.x + player.width &&
       player.x < streck.varX + streck.längdX &&
@@ -168,8 +163,6 @@ export function spelPlan1(portal) {
 
 export function portalCheck(portal, player) {
   if (player.x > portal.x && player.y > portal.y) {
-    // gameCanvas.style.display = "none";
-    // spelplan1.style.display = "block";
     window.location.href = "spel-meny.html";
   }
 }
