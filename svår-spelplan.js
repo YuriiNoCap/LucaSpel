@@ -58,7 +58,7 @@ let spelare = {
   currentImg: standingImg,
 };
 
-const Hinder1 = new Hinder(0, 513, gameCanvas.width);
+const Hinder1 = new Hinder(0, 550, gameCanvas.width);
 const Hinder2 = new Hinder(0, -10, gameCanvas.width);
 const Hinder3 = new Hinder(100, 450, 150);
 const Hinder4 = new Hinder(1000, 400, 150);
